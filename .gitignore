@@ -1,0 +1,24 @@
+# @rayandrew
+# added to not commit and upload build file, etc
+
+## Directories
+
+build/
+target/
+.idea/
+OBF_DROP_DIR/
+java8-sck/
+
+## Files
+
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+.eclipse
+*.out
+*.orig
+Terms
+.DS_Store
