@@ -146,8 +146,8 @@ function build()
 
   # patch common/autoconf/version-numbers
   if [ -f make/autoconf/version-numbers ]; then
-    mv make/autoconf/version-numbers common/autoconf/version-numbers.orig
-    cat make/autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > common/autoconf/version-numbers
+    mv make/autoconf/version-numbers make/autoconf/version-numbers.orig
+    cat make/autoconf/version-numbers.orig | grep -v "MILESTONE" | grep -v "JDK_BUILD_NUMBER" | grep -v "COMPANY_NAME" > make/autoconf/version-numbers
   fi
 
   export JDK_BUILD_NUMBER=$OBF_BUILD_DATE
