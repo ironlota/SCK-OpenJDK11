@@ -176,7 +176,7 @@ function build()
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
-      bash $OBF_SOURCES_PATH/common/autoconf/configure \
+      bash $OBF_SOURCES_PATH/configure \
 	   --with-boot-jdk=$OBF_BOOTDIR \
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
@@ -200,7 +200,7 @@ function build()
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
-      bash $OBF_SOURCES_PATH/common/autoconf/configure \
+      bash $OBF_SOURCES_PATH/configure \
 	   --with-boot-jdk=$OBF_BOOTDIR \
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
