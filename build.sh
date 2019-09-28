@@ -20,7 +20,7 @@ fi
 ## 1. --just-build when we are compiling...
 ## if empty, then it will build and clone when needed
 echo "Building OpenJDK11"
-$PWD/obuildfactory-sck/openjdk8/linux/standalone-job.sh --just-build
+$PWD/installer/linux/standalone-job.sh --just-build
 
 echo "Untar OpenJDK11"
 $PWD/untar.sh
