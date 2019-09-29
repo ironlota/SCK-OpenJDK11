@@ -42,7 +42,7 @@ pushd $OBF_SOURCES_PATH >>/dev/null
 #
 # Updating sources for Mercurial repo
 #
-sh ./get_source.sh
+# sh ./get_source.sh
 
 if [ -n "$XUSE_UPDATE" ]; then
   XUSE_TAG=`hg tags | grep "jdk8u$XUSE_UPDATE" | head -1 | cut -d ' ' -f 1`
