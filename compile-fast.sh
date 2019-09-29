@@ -2,7 +2,7 @@
 ##################################################
 ## Make sure that you installed the packages
 ## described here:
-## https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-11-on-Linux
+## ./installer/README.md
 ##################################################
 ## vars
 SRC_FOLDER="sources"

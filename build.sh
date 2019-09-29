@@ -2,12 +2,13 @@
 ##################################################
 ## Make sure that you installed the packages
 ## described here:
-## https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-9-on-Linux
+## ./installer/README.md
 ##################################################
 ## vars
 export XCLEAN=true
 export XBUILD=true
 export XUSE_UPDATE=60
+#export XDEBUG=true
 ###################################################
 ## first, lets clean the output dir. DO NOT STORE
 ## ANYTHING IN THIS FOLDER, IT WILL GET DELETED!

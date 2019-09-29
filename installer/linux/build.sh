@@ -38,11 +38,11 @@ function ensure_ant()
   if [ ! -x $OBF_DROP_DIR/ant/bin/ant ]; then
     mkdir -p $OBF_DROP_DIR/ant
     pushd $OBF_DROP_DIR/ant
-    curl -L http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz -o apache-ant-1.8.4-bin.tar.gz
+    curl -L http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.14-bin.tar.gz -o apache-ant-1.9.14-bin.tar.gz
     tar xzf apache-ant-1.8.4-bin.tar.gz
-    mv apache-ant-1.8.4/* .
-    rmdir apache-ant-1.8.4
-    rm -f apache-ant-1.8.4-bin.tar.gz
+    mv apache-ant-1.9.14/* .
+    rmdir apache-ant-1.9.14
+    rm -f apache-ant-1.9.14-bin.tar.gz
     popd
   fi
 
@@ -81,9 +81,9 @@ function ensure_freetype()
 
     if [ ! -d $OBF_DROP_DIR/freetype ]; then
       pushd $OBF_DROP_DIR
-      curl -L http://freefr.dl.sourceforge.net/project/freetype/freetype2/2.4.10/freetype-2.4.10.tar.bz2 -o freetype-2.4.10.tar.bz2
-      tar xjf freetype-2.4.10.tar.bz2
-      cd freetype-2.4.10
+      curl -L http://freefr.dl.sourceforge.net/project/freetype/freetype2/2.9.1/freetype-2.9.1.tar.bz2 -o freetype-2.9.1.tar.bz2
+      tar xjf freetype-2.9.1.tar.bz2
+      cd freetype-2.9.1
       mkdir -p $OBF_DROP_DIR/freetype
       ./configure --prefix=$OBF_DROP_DIR/freetype
       make
@@ -117,7 +117,7 @@ function ensure_java11()
 #
 function build()
 {
-  echo "### using new build system ###"
+  echo "### Building SCK OpenJDK11 ###"
 
   pushd $OBF_SOURCES_PATH >>/dev/null
 
@@ -215,14 +215,7 @@ function test_build()
   else
     echo "can't find java into JDK $IMAGE_BUILD_DIR/jdk, build failed"
     exit -1
-   fi
-
-   if [ -x $IMAGE_BUILD_DIR/jre/bin/java ]; then
-     $IMAGE_BUILD_DIR/jre/bin/java -version
-   else
-     echo "can't find java into JRE $IMAGE_BUILD_DIR/jre, build failed"
-     exit -1
-    fi
+  fi
 }
 
 #
@@ -238,11 +231,9 @@ function archive_build()
   fi
 
   tar cjf $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk
-  tar cjf $OBF_DROP_DIR/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jre
 
   echo "produced tarball files under $OBF_DROP_DIR"
   ls -l $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
-  ls -l $OBF_DROP_DIR/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
 
   popd
 }
@@ -279,7 +270,7 @@ ensure_freetype
 ensure_java11
 
 #
-# Build JDK/JRE images
+# Build JDK images
 #
 build
 

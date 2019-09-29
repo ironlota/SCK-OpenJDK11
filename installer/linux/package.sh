@@ -110,27 +110,6 @@ else
         echo "missing JDK image tarball $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
     fi
 
-    if [ -f $OBF_DROP_DIR/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 ]; then
-
-        echo "packaging JRE"
-        cp $OBF_DROP_DIR/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 SOURCES/jre.tar.bz2
-
-        if [ "$XPACKAGE_MODE" = "generic" ]; then
-            echo "No generic JRE packaging yet."
-        else
-            rpmbuild -bb --define="_topdir $PWD" --define="_tmppath $PWD/TEMP" --define="jvm_version $OBF_BUILD_NUMBER" \
-                       --define="jdk_type $FILENAME_PREFIX" --define="jdk_model $OBF_JDK_MODEL" --define="cum_jdk 0" \
-                       SPECS/jre.spec
-        fi
-
-        if [ $? != 0 ]; then
-            exit -1
-        fi
-
-    else
-        echo "missing JRE image tarball $OBF_DROP_DIR/jre$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2, skipping packaging"
-    fi
-
     if [ "$XPACKAGE_MODE" = "generic" ]; then
         mv GENERIC/*.tar.xz $OBF_DROP_DIR
     else

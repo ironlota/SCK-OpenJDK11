@@ -2,7 +2,7 @@
 ##################################################
 ## Make sure that you installed the packages
 ## described here:
-## https://github.com/hgomez/obuildfactory/wiki/How-to-build-and-package-OpenJDK-9-on-Linux
+## ./installer/README.md
 ##################################################
 ## vars
 JAVA_OUTPUT="j2sdk-image"
@@ -28,8 +28,8 @@ FILE=$(ls "$FOLDER" | grep j2sdk)
 
 ## some sanity
 if [ -z "$FILE" ]; then
-	echo "File <$FILE> was not found, exiting..."
-	exit
+    echo "File <$FILE> was not found, exiting..."
+    exit
 fi
 
 echo "Uncompressing <$FILE> to <$PWD>"
