@@ -24,7 +24,7 @@ fi
 ## find the file name, we want the j2sdk. The output
 ## folder contains just one file matching that name, 
 ## so ill make this simple...
-FILE=$(ls "$FOLDER" | grep j2sdk)
+FILE=$(ls "$FOLDER" | grep jdk)
 
 ## some sanity
 if [ -z "$FILE" ]; then
@@ -38,3 +38,14 @@ tar xvjf $FOLDER/$FILE
 ## now, just rename the folder
 mv $JAVA_OUTPUT $SCK
 ## done
+
+## testing
+if [ -x $SCK/bin/java ]; then
+  $SCK/bin/java -version
+else
+  echo "can't find java in this folder $SCK, build failed"
+  exit -1
+fi
+
+## succeed
+echo "Untar success!"

@@ -230,10 +230,10 @@ function archive_build()
     FILENAME_PREFIX="-fastdebug"
   fi
 
-  tar cjf $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2 jdk
+  tar cjf $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_DATE.tar.bz2 jdk
 
   echo "produced tarball files under $OBF_DROP_DIR"
-  ls -l $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_NUMBER-$OBF_BUILD_DATE.tar.bz2
+  ls -l $OBF_DROP_DIR/jdk$FILENAME_PREFIX-$OBF_BASE_ARCH-$OBF_BUILD_DATE.tar.bz2
 
   popd
 }
