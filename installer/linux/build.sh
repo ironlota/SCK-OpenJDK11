@@ -39,7 +39,7 @@ function ensure_ant()
     mkdir -p $OBF_DROP_DIR/ant
     pushd $OBF_DROP_DIR/ant
     curl -L http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.14-bin.tar.gz -o apache-ant-1.9.14-bin.tar.gz
-    tar xzf apache-ant-1.8.4-bin.tar.gz
+    tar xzf apache-ant-1.9.14-bin.tar.gz
     mv apache-ant-1.9.14/* .
     rmdir apache-ant-1.9.14
     rm -f apache-ant-1.9.14-bin.tar.gz
