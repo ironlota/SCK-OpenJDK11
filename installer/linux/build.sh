@@ -101,37 +101,14 @@ function ensure_freetype()
 #
 # Determine BUILD JVM to use
 #
-function ensure_java8()
+function ensure_java11()
 {
-  if [ ! -z "$OBF_JAVA8_HOME" ]; then
-    export OBF_BOOTDIR=$OBF_JAVA8_HOME
+  if [ ! -z "$OBF_JAVA11_HOME" ]; then
+    export OBF_BOOTDIR=$OBF_JAVA11_HOME
     return
-  fi
-
-  if [ "$CPU_BUILD_ARCH" = "x86_64" ]; then
-
-    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-x86_64 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-x86_64
-    else
-      echo "missing required Java 8, aborting..."
-    fi
-
-  elif [ "$CPU_BUILD_ARCH" = "ppc64" ]; then
-
-    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-ppc64 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-ppc64
-    else
-      echo "missing required Java 8, aborting..."
-    fi
-
   else
-
-    if [ -d /opt/obuildfactory/jdk-1.8.0-openjdk-i686 ]; then
-      export OBF_BOOTDIR=/opt/obuildfactory/jdk-1.8.0-openjdk-i686
-    else
-      echo "missing required Java 8, aborting..."
-    fi
-
+    echo "Can't find Java 11 Home Directory, build failed"
+    exit -1
   fi
 }
 
@@ -181,9 +158,7 @@ function build()
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
            --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-	   --enable-debug \
-           -with-build-number=$OBF_BUILD_DATE \
-	   --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
+	   --enable-debug $EXTRA_FLAGS
 
   else
 
@@ -204,9 +179,7 @@ function build()
 	   --with-boot-jdk=$OBF_BOOTDIR \
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
-           --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-           -with-build-number=$OBF_BUILD_DATE \
-	   --with-milestone=$OBF_MILESTONE $EXTRA_FLAGS
+           --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache $EXTRA_FLAGS
 
   fi
 
@@ -301,9 +274,9 @@ ensure_ant
 ensure_freetype
 
 #
-# Select Java 8 (32 / 64bits)
+# Select Java 11 (32 / 64bits)
 #
-ensure_java8
+ensure_java11
 
 #
 # Build JDK/JRE images

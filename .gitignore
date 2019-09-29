@@ -7,7 +7,7 @@ build/
 target/
 .idea/
 OBF_DROP_DIR/
-java8-sck/
+java11-sck/
 
 ## Files
 
@@ -21,4 +21,4 @@ java8-sck/
 *.out
 *.orig
 Terms
-.DS_Store
+*.DS_Store
