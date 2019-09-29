@@ -5,7 +5,7 @@
 ## ./installer/README.md
 ##################################################
 ## vars
-JAVA_OUTPUT="j2sdk-image"
+JAVA_OUTPUT="jdk"
 SCK="java11-sck"
 FOLDER="OBF_DROP_DIR"
 
@@ -21,7 +21,7 @@ if [ -d "$SCK" ]; then
     rm -rf $SCK
 fi
 
-## find the file name, we want the j2sdk. The output
+## find the file name, we want the jdk. The output
 ## folder contains just one file matching that name, 
 ## so ill make this simple...
 FILE=$(ls "$FOLDER" | grep jdk)
