@@ -2,8 +2,6 @@
 
 echo "Setting SCK OpenJDK11 development"
 
-export CC="ccache gcc"
-export CXX="ccache g++"
 export OBF_JAVA11_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
 path_dir="${PWD}/sources/build/linux-x86_64-normal-server-release/jdk/bin"
