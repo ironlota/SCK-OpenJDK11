@@ -78,7 +78,12 @@
           "be dumped into the corefile.")                               \
                                                                         \
   diagnostic(bool, UseCpuAllocPath, false,                              \
-             "Use CPU_ALLOC code path in os::active_processor_count ")
+             "Use CPU_ALLOC code path in os::active_processor_count ")  \
+  /* @rayandrew */                                                      \
+  /* eadd this for enabling/disabling ksm in JVM */                     \
+  product(bool, UseKSM, false,                                          \
+          "Use Kernel Samepage Merging (MADV_MERGEABLE)"                \
+          "for sharing memory between JVMs")
 
 //
 // Defines Linux-specific default values. The flags are available on all

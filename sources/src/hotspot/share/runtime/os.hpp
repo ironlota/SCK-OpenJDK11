@@ -408,6 +408,13 @@ class os: AllStatic {
   static bool   can_commit_large_page_memory();
   static bool   can_execute_large_page_memory();
 
+  // @rayandrew
+  // add this to mark KSM implementations
+  static void    ksm_init();
+  static bool    can_execute_ksm();
+  static void    mark_for_mergeable(void* addr, size_t bytes);
+  static void    mark_for_mergeable_debug(void* addr, size_t bytes, const char* msg);
+
   // OS interface to polling page
   static address get_polling_page()             { return _polling_page; }
   static void    set_polling_page(address page) { _polling_page = page; }

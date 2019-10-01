@@ -4107,6 +4107,78 @@ bool os::can_execute_large_page_memory() {
   return UseTransparentHugePages || UseHugeTLBFS;
 }
 
+// @rayandrew
+// add implementation of KSM definitions
+bool os::can_execute_ksm() {
+  return UseKSM;
+}
+
+void os::ksm_init() {
+  // tty->print_cr("Checking KSM Features");
+
+  if (!UseKSM) {
+    // Not using KSM.
+    return;
+  }
+
+  int ksm_status = 0;
+ 
+  // check whether KSM Daemon is enabled or not
+  FILE *fp = fopen("/sys/kernel/mm/ksm/run", "r");
+  if (fp) {
+    while (!feof(fp)) {
+      if (fscanf(fp, " %d", &ksm_status) == 1) {
+        break;
+      } else {
+        // skip to next line
+        for (;;) {
+          int ch = fgetc(fp);
+          if (ch == EOF || ch == (int)'\n') break;
+        }
+      }
+    }
+    fclose(fp);
+  }
+
+  assert(ksm_status == 1, "KSM Daemon is enabled");
+
+  if (ksm_status != 1) {
+      UseKSM = false;
+      return;
+  }
+
+  if (!FLAG_IS_DEFAULT(UseKSM) && !UseKSM) {
+    // The user explicitly turned off KSM.
+    // Ignore the rest of the KSMs flags.
+    UseKSM = false;
+    return;
+  }
+
+  if (UseKSM) {
+    tty->print_cr("KSM features is enabled");
+  }
+}
+
+void os::mark_for_mergeable(void* addr, size_t bytes) {
+  assert(UseKSM, "only if KSM enabled");
+
+  // tell to Linux OSes that we need to merge this whole area
+  int madv_status = madvise(addr, bytes, MADV_MERGEABLE);
+
+  if (madv_status != 0) {
+    warn_on_ksm_madvise_failure(addr, bytes, errno);
+    return;
+  }
+}
+
+void os::mark_for_mergeable_debug(void* addr, size_t bytes, const char* msg) {
+  tty->print_cr("[%s] Mark page address : " PTR_FORMAT " bytes : " SIZE_FORMAT " to be mergeable", msg, addr, bytes);
+  mark_for_mergeable(addr, bytes);
+}
+
+// @rayandrew
+// end of KSM implementations
+
 char* os::pd_attempt_reserve_memory_at(size_t bytes, char* requested_addr, int file_desc) {
   assert(file_desc >= 0, "file_desc is not valid");
   char* result = pd_attempt_reserve_memory_at(bytes, requested_addr);
