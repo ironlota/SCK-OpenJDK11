@@ -9,6 +9,7 @@ export XCLEAN=true
 export XBUILD=true
 export XUSE_UPDATE=60
 #export XDEBUG=true
+export XCACHE=true
 export XLIBCCACHE="/usr/lib/ccache"
 ###################################################
 ## first, lets clean the output dir. DO NOT STORE
