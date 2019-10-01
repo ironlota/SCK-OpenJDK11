@@ -4159,7 +4159,7 @@ void os::ksm_init() {
   }
 }
 
-static void warn_on_ksm_madvise_failure(char* req_addr, size_t bytes,
+static void warn_on_ksm_madvise_failure(void* req_addr, size_t bytes,
                                         int error) {
   assert(error == ENOMEM, "Only expect to fail if no memory is available");
 
