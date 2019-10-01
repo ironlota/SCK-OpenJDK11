@@ -9,6 +9,7 @@ export XCLEAN=true
 export XBUILD=true
 export XUSE_UPDATE=60
 #export XDEBUG=true
+export XLIBCCACHE="/usr/lib/ccache"
 ###################################################
 ## first, lets clean the output dir. DO NOT STORE
 ## ANYTHING IN THIS FOLDER, IT WILL GET DELETED!
@@ -21,6 +22,12 @@ fi
 ## 1. --just-build when we are compiling...
 ## if empty, then it will build and clone when needed
 echo "Building OpenJDK11"
+
+if [ "$XCACHE" = "true" ]; then
+    echo "Using ccache"
+    export PATH="${XLIBCCACHE}:${PATH}"
+fi
+
 $PWD/installer/linux/standalone-job.sh --just-build
 
 echo "Untar OpenJDK11"
