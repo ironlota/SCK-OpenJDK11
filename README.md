@@ -32,3 +32,18 @@ sudo add-apt-repository ppa:openjdk-r/ppa \
 - Set `OBF_JAVA11_HOME` to the home directory of your OpenJDK11
 
 > Or just run `source environment.sh` if you run it on Ubuntu based machine
+
+## How to compile
+
+1. For the first time, run
+
+```shell
+./build.sh
+```
+
+2. After that just run :
+
+```shell
+./compile-fast.sh
+```
+
