@@ -158,7 +158,8 @@ function build()
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
            --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-	   --enable-debug $EXTRA_FLAGS
+	   --enable-debug $EXTRA_FLAGS \
+	   --disable-warnings-as-errors
 
   else
 
@@ -179,7 +180,8 @@ function build()
 	   --with-boot-jdk=$OBF_BOOTDIR \
 	   --with-freetype=$OBF_FREETYPE_DIR \
 	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
-           --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache $EXTRA_FLAGS
+           --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache $EXTRA_FLAGS \
+	   --disable-warnings-as-errors
 
   fi
 
