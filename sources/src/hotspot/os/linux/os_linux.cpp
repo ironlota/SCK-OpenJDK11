@@ -4159,6 +4159,20 @@ void os::ksm_init() {
   }
 }
 
+static void warn_on_ksm_madvise_failure(char* req_addr, size_t bytes,
+                                        int error) {
+  assert(error == ENOMEM, "Only expect to fail if no memory is available");
+
+  bool warn_on_failure = UseKSM && !FLAG_IS_DEFAULT(UseKSM);
+
+  if (warn_on_failure) {
+    char msg[128];
+    jio_snprintf(msg, sizeof(msg), "Failed to memory pages using madvise, req_addr: "
+                 PTR_FORMAT " bytes: " SIZE_FORMAT " (errno = %d).", req_addr, bytes, error);
+    warning("%s", msg);
+  }
+}
+
 void os::mark_for_mergeable(void* addr, size_t bytes) {
   assert(UseKSM, "only if KSM enabled");
 
@@ -4171,11 +4185,12 @@ void os::mark_for_mergeable(void* addr, size_t bytes) {
   }
 }
 
-void os::mark_for_mergeable_debug(void* addr, size_t bytes, const char* msg) {
-  tty->print_cr("[%s] Mark page address : " PTR_FORMAT " bytes : " SIZE_FORMAT " to be mergeable", msg, addr, bytes);
+void os::mark_for_mergeable_debug(void* addr, size_t bytes, const char* func_name) {
+  char msg[128];
+  jio_snprintf(msg, sizeof(msg), "[%s] Mark page address : " PTR_FORMAT " bytes : " SIZE_FORMAT " to be mergeable", func_name, addr, bytes);
+  tty->print_cr("%s", msg);
   mark_for_mergeable(addr, bytes);
 }
-
 // @rayandrew
 // end of KSM implementations
 
