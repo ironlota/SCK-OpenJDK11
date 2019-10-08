@@ -45,6 +45,13 @@ inline HeapWord* ThreadLocalAllocBuffer::allocate(size_t size) {
 #endif // ASSERT
     // This addition is safe because we know that top is
     // at least size below end, so the add can't wrap.
+
+    // @rayandrew
+    // add this line to execute KSM and tell the kernel that ContigousSpace area is mergeable
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) obj, size, "ThreadLocalAllocBuffer::allocate");
+    }
+    
     set_top(obj + size);
 
     invariants();
