@@ -1,0 +1,38 @@
+\subsection{Friday, 04 October 2019}
+
+\begin{multicols*}{2}
+[
+\subsubsection{Allocation Classes}
+]
+
+\begin{easylist}
+  & Allocation, consists of:
+  && AllocatedObj (Abstract Class)
+  &&& CHeapObj (Abstract Class)
+	&&&& CollectedHeap
+  &&&&& GenCollectedHeap
+  &&&&&& SerialHeap
+  &&&&&& CMSHeap
+	&&&&& G1CollectedHeap
+	&&&&& ParallelScavengeHeap
+	&&&&& ZCollectedHeap
+	&&& StackObj (Abstract Class)
+	&&&& MemAllocator
+  &&&&& ObjAllocator
+  &&&&& ObjArrayAllocator
+  &&&&& ClassAllocator
+	&&& ResourceObj (Abstract Class)
+	&& MetaspaceObj (Abstract Class)
+	&& AllStatic (Abstract Class)
+  &&& ArrayAllocator
+  &&& MmapArrayAllocator
+  && MallocArrayAllocator
+\end{easylist}
+
+\subsubsection{Notes}
+\begin{itemize}
+\item All of the Klass is being instantiated in Metaspace
+\item EpsilonGC is not creating its own heap
+\end{itemize}
+
+\end{multicols*}  

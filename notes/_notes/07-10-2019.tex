@@ -1,0 +1,71 @@
+\subsection{Monday, 07 October 2019}
+
+% \begin{multicols*}{2}
+%   [
+\subsubsection{JVM Array Allocation}
+% ]
+
+\begin{forest}
+  for tree={
+    fit=band,% spaces the tree out a little to avoid collisions,
+    circle,
+    draw,
+    s sep+ = 6mm,
+    l sep+ = 12mm,
+    edge label={node[midway, fill=white, inner sep=2pt,
+      anchor=center]{call}},
+    edge+={->,>=latex},
+    delay={
+      where content={}{edge=-}{},
+    },
+    % grow=north,
+  }
+  [1,
+    [2,
+      [3]
+    ]
+    [4]
+  ]
+\end{forest}
+
+\begin{enumerate}
+\item \mintinline{cpp}{void OptoRuntime::new_array_C(Klass* array_type, int len, JavaThread *thread)}
+  
+\item \mintinline{cpp}{typeArrayOop oopFactory::new_typeArray(BasicType type, int length, TRAPS)}
+
+\item \mintinline{cpp}{TypeArrayKlass* TypeArrayKlass::allocate(ClassLoaderData* loader_data, BasicType type, Symbol* name, TRAPS)}
+
+\item \mintinline{cpp}{TypeArrayKlass* TypeArrayKlass::allocate(ClassLoaderData* loader_data, BasicType type, Symbol* name, TRAPS)}
+  
+\item \mintinline{cpp}{objArrayOop oopFactory::new_objArray(Klass* klass, int length, TRAPS)}
+\end{enumerate}
+
+\subsubsection{Type Array Inheritance}
+
+\begin{forest}
+  for tree={%
+    thick,
+    drop shadow,
+    l sep=0.6cm,
+    s sep=0.8cm,
+    node options={draw,font=\sffamily},
+    edge={semithick,-Latex},
+    edge label={node[midway, fill=white, inner sep=2pt, anchor=center]{}},
+  }
+  [MetaspaceObj,
+    [
+      Metadata,
+      [
+        Klass,
+        [
+          ArrayKlass,
+          [
+            TypeArrayKlass
+          ]
+        ]
+      ]
+    ]
+  ]
+\end{forest}
+
+% \end{multicols*}  
