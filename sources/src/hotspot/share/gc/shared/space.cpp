@@ -595,10 +595,10 @@ inline HeapWord* ContiguousSpace::par_allocate_impl(size_t size) {
         assert(is_aligned(obj) && is_aligned(new_top), "checking alignment");
 
         // @rayandrew
-	// add this line to execute KSM and tell the kernel that ContigousSpace area is mergeable
-	if (os::can_execute_ksm()) {
-          os::mark_for_mergeable_debug((void*) obj, size, "ContiguousSpace::par_allocate_impl");
-        }
+        // add this line to execute KSM and tell the kernel that ContigousSpace area is mergeable
+        // if (os::can_execute_ksm()) {
+        //   os::mark_for_mergeable_debug((void*) obj, size, "ContiguousSpace::par_allocate_impl");
+        // }
 	
         return obj;
       }
