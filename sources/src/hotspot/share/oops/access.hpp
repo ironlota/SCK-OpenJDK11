@@ -157,7 +157,7 @@ protected:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, size, "Access::arraycopy");
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "Access::arraycopy");
     }
   }
 
