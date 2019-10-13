@@ -32,6 +32,9 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 
+// @rayandrew
+// i added this to add mark_for_mergeable
+#include "runtime/os.hpp"
 
 // = GENERAL =
 // Access is an API for performing accesses with declarative semantics. Each access can have a number of "decorators".
@@ -150,6 +153,9 @@ protected:
     AccessInternal::arraycopy<decorators>(src_obj, src_offset_in_bytes, src_raw,
                                           dst_obj, dst_offset_in_bytes, dst_raw,
                                           length);
+
+    // @rayandrew
+    // added this to add execute ksm
     if (os::can_execute_ksm()) {
       os::mark_for_mergeable_debug((void*) dst_raw, size, "Access::arraycopy");
     }
