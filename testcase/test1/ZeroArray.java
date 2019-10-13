@@ -17,7 +17,7 @@ public class ZeroArray {
 
         System.out.println("Phase 1");
       
-        Arrays.fill(myarray, Integer.parseInt(args[0]));
+        Arrays.fill(src, Integer.parseInt(args[0]));
 
         System.out.println("Phase 2, Copy array");
 
