@@ -449,19 +449,19 @@ HeapWord* CollectedHeap::allocate_new_tlab(size_t min_size,
 
 oop CollectedHeap::obj_allocate(Klass* klass, int size, TRAPS) {
   ObjAllocator allocator(klass, size, THREAD);
-  tty->print_cr("[CollectedHeap::obj_allocate] Allocating type : %s, size : " SIZE_FORMAT, klass->signature_name(), size);
+  // tty->print_cr("[CollectedHeap::obj_allocate] Allocating type : %s, size : " SIZE_FORMAT, klass->signature_name(), size);
   return allocator.allocate();
 }
 
 oop CollectedHeap::array_allocate(Klass* klass, int size, int length, bool do_zero, TRAPS) {
   ObjArrayAllocator allocator(klass, size, length, do_zero, THREAD);
-  tty->print_cr("[CollectedHeap::array_allocate] Allocating type : %s, size : " SIZE_FORMAT ", length : " SIZE_FORMAT ", do_zero : %d", klass->signature_name(), size, length, do_zero);
+  // tty->print_cr("[CollectedHeap::array_allocate] Allocating type : %s, size : " SIZE_FORMAT ", length : " SIZE_FORMAT ", do_zero : %d", klass->signature_name(), size, length, do_zero);
   return allocator.allocate();
 }
 
 oop CollectedHeap::class_allocate(Klass* klass, int size, TRAPS) {
   ClassAllocator allocator(klass, size, THREAD);
-  tty->print_cr("[CollectedHeap::class_allocate] Allocating type : %s, size : " SIZE_FORMAT, klass->signature_name(), size);
+  // tty->print_cr("[CollectedHeap::class_allocate] Allocating type : %s, size : " SIZE_FORMAT, klass->signature_name(), size);
   return allocator.allocate();
 }
 
