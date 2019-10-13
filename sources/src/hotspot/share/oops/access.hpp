@@ -150,6 +150,9 @@ protected:
     AccessInternal::arraycopy<decorators>(src_obj, src_offset_in_bytes, src_raw,
                                           dst_obj, dst_offset_in_bytes, dst_raw,
                                           length);
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, size, "Access::arraycopy");
+    }
   }
 
 public:
