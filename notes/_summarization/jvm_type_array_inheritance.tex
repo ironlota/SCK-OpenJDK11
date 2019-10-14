@@ -1,0 +1,29 @@
+\subsubsection{Type Array Inheritance}
+
+\begin{center}
+\begin{forest}
+  for tree={%
+    thick,
+    drop shadow,
+    l sep=0.6cm,
+    s sep=0.8cm,
+    node options={draw,font=\sffamily},
+    edge={semithick,-Latex},
+    edge label={node[midway, fill=white, inner sep=2pt, anchor=center]{}},
+  }
+  [MetaspaceObj,
+    [
+      Metadata,
+      [
+        Klass,
+        [
+          ArrayKlass,
+          [
+            TypeArrayKlass
+          ]
+        ]
+      ]
+    ]
+  ]
+\end{forest}
+\end{center}

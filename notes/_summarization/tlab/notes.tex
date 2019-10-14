@@ -1,0 +1,61 @@
+\subsubsubsection{Notes}
+
+\begin{flushleft}
+
+The virtual machine must never call one of the implicitly declared
+global allocation or deletion functions.  (Such calls may result in
+link-time or run-time errors.)  For convenience and documentation of
+intended use, classes in the virtual machine may be derived from one
+of the following allocation classes, some of which define allocation
+and deletion functions.
+Note: \cppinline{std::malloc} and \cppinline{std::free} should never called directly.
+
+
+For objects allocated in the resource area (see resourceArea.hpp).
+- ResourceObj
+
+For objects allocated in the C-heap (managed by: free \& malloc and tracked with NMT)
+- CHeapObj
+
+For objects allocated on the stack.
+- StackObj
+
+For classes used as name spaces.
+- AllStatic
+
+For classes in Metaspace (class data)
+- MetaspaceObj
+
+The printable subclasses are used for debugging and define virtual
+member functions for printing. Classes that avoid allocating the
+vtbl entries in the objects should therefore not be the printable
+subclasses.
+
+The following macros and function should be used to allocate memory
+directly in the resource area or in the C-heap, The \_OBJ variants
+of the NEW/FREE\_C\_HEAP macros are used for alloc/dealloc simple
+objects which are not inherited from CHeapObj, note constructor and
+destructor are not called. The preferable way to allocate objects
+is using the new operator.
+
+WARNING: The array variant must only be used for a homogenous array
+where all objects are of the exact type specified. If subtypes are
+stored in the array then must pay attention to calling destructors
+at needed.
+
+\begin{itemize}
+\item \cppinline{NEW_RESOURCE_ARRAY(type, size)}
+\item \cppinline{NEW_RESOURCE_OBJ(type)}
+\item \cppinline{NEW_C_HEAP_ARRAY(type, size)}
+\item \cppinline{NEW_C_HEAP_OBJ(type, memflags)}
+\item \cppinline{FREE_C_HEAP_ARRAY(type, old)}
+\item \cppinline{FREE_C_HEAP_OBJ(objname, type, memflags)}
+\item \cppinline{char* AllocateHeap(size_t size, const char* name);}
+\item \cppinline{void  FreeHeap(void* p);}
+\end{itemize}
+
+In non product mode we introduce a super class for all allocation classes
+that supports printing.
+We avoid the superclass in product mode to save space.
+
+\end{flushleft}

@@ -1,0 +1,22 @@
+\subsection{Tuesday, 08 October 2019}
+
+\subsubsection{Kafka Bug Study}
+\begin{itemize}
+\item Distributed Concurrency Bugs
+  \begin{enumerate}
+  \item \href{https://issues.apache.org/jira/browse/KAFKA-1183}{[KAFKA-1183] - DefaultEventHandler causes unbalanced distribution of messages across partitions}
+  \item \href{https://issues.apache.org/jira/browse/KAFKA-1154}{[KAFKA-1154] - replicas may not have consistent data after becoming follower}
+  \item \href{https://issues.apache.org/jira/browse/KAFKA-1124}{[KAFKA-1124] - Sending to a new topic (with auto.create.topics.enable) returns ERROR}
+  \item \href{https://issues.apache.org/jira/browse/KAFKA-1097}{[KAFKA-1097] - Race condition while reassigning low throughput partition leads to incorrect ISR information in zookeeper}
+  \end{enumerate}
+
+\item Scalability Bugs
+  \begin{enumerate}
+  \item \href{https://issues.apache.org/jira/browse/KAFKA-1228}{[KAFKA-1228] - Socket Leak on ReplicaFetcherThread}
+  \end{enumerate}
+\end{itemize}
+
+\subsubsection{JVM Deduplication}
+\begin{itemize}
+\item Trying to implement the madvise call inside the TLAB allocation (ThreadLocalAllocBuffer::allocate)  \hfill \\ Only saving 44kb for two JVM process and array 139 with its elements 42
+\end{itemize}

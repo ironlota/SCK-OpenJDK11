@@ -1,6 +1,8 @@
 \documentclass[a4paper,english,tikz]{report}
 
 \usepackage{minted}
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
 \usepackage[edges]{forest}
 \usepackage{multicol}
 \usepackage{graphics}
@@ -9,8 +11,23 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 
+% setup list
+\setlist[itemize]{leftmargin=*}
+
+% setup forest
 \usetikzlibrary{shadows,arrows.meta}
 
+% setup minted
+\usemintedstyle{emacs}
+% {frame=lines,framerule=2pt}
+% {frame=single,framesep=2pt}
+\setminted{breaklines}
+\setmintedinline{breaklines} % necessary for breakanywhere to work later on.
+
+% \BeforeBeginEnvironment{minted}{\begin{tcolorbox}}%
+% \AfterEndEnvironment{minted}{\end{tcolorbox}}%
+
+\newcommand{\cppinline}[1]{\mintinline{cpp}{#1}}
 
 % setup multicols
 \setlength{\columnsep}{1cm}
@@ -21,7 +38,7 @@
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
-  filecolor=magenta,      
+  filecolor=magenta,
   urlcolor=cyan,
   pdftitle={rayandrew's research},
   bookmarks=true,
@@ -37,7 +54,8 @@
 \renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
 
 \titleformat{\subsubsubsection}
-  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+{\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+
 \titlespacing*{\subsubsubsection}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 

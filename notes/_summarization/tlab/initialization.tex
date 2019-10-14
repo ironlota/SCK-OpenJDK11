@@ -1,10 +1,6 @@
-\subsection{Monday, 07 October 2019}
+\subsubsubsection{Initialization}
 
-% \begin{multicols*}{2}
-%   [
-\subsubsection{JVM Array Allocation}
-% ]
-
+\begin{center}
 \begin{forest}
   for tree={
     fit=band,% spaces the tree out a little to avoid collisions,
@@ -27,6 +23,7 @@
     [4]
   ]
 \end{forest}
+\end{center}
 
 \begin{enumerate}
 \item \mintinline{cpp}{void OptoRuntime::new_array_C(Klass* array_type, int len, JavaThread *thread)}
@@ -39,33 +36,3 @@
   
 \item \mintinline{cpp}{objArrayOop oopFactory::new_objArray(Klass* klass, int length, TRAPS)}
 \end{enumerate}
-
-\subsubsection{Type Array Inheritance}
-
-\begin{forest}
-  for tree={%
-    thick,
-    drop shadow,
-    l sep=0.6cm,
-    s sep=0.8cm,
-    node options={draw,font=\sffamily},
-    edge={semithick,-Latex},
-    edge label={node[midway, fill=white, inner sep=2pt, anchor=center]{}},
-  }
-  [MetaspaceObj,
-    [
-      Metadata,
-      [
-        Klass,
-        [
-          ArrayKlass,
-          [
-            TypeArrayKlass
-          ]
-        ]
-      ]
-    ]
-  ]
-\end{forest}
-
-% \end{multicols*}  
