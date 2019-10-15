@@ -34,7 +34,7 @@
 // i added this to add mark_for_mergeable
 #include "runtime/os.hpp"
 
-bool check_if_tescase_array(size_t length) {
+static inline bool check_if_tescase_array(size_t length) {
     return length == 4096000;
 }
 
