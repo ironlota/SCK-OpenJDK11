@@ -30,6 +30,10 @@
 #include "oops/compressedOops.inline.hpp"
 #include "oops/oopsHierarchy.hpp"
 
+// @rayandrew
+// i added this to add mark_for_mergeable
+#include "runtime/os.hpp"
+
 template <DecoratorSet decorators>
 template <DecoratorSet idecorators, typename T>
 inline typename EnableIf<
@@ -266,6 +270,12 @@ public:
       AccessInternal::arraycopy_conjoint_oops(reinterpret_cast<OopType*>(src_raw),
                                               reinterpret_cast<OopType*>(dst_raw), length);
     }
+
+    // @rayandrew
+    // added this to add execute ksm
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    }
   }
 
   template <DecoratorSet decorators, typename T>
@@ -279,6 +289,12 @@ public:
     dst_raw = arrayOopDesc::obj_offset_to_raw(dst_obj, dst_offset_in_bytes, dst_raw);
 
     AccessInternal::arraycopy_arrayof_conjoint(src_raw, dst_raw, length);
+
+    // @rayandrew
+    // added this to add execute ksm
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    }
   }
 
   template <DecoratorSet decorators, typename T>
@@ -297,6 +313,12 @@ public:
     } else {
       AccessInternal::arraycopy_disjoint_words(src_raw, dst_raw, length);
     }
+
+    // @rayandrew
+    // added this to add execute ksm
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    }
   }
 
   template <DecoratorSet decorators, typename T>
@@ -312,6 +334,12 @@ public:
     dst_raw = arrayOopDesc::obj_offset_to_raw(dst_obj, dst_offset_in_bytes, dst_raw);
 
     AccessInternal::arraycopy_conjoint(src_raw, dst_raw, length);
+
+    // @rayandrew
+    // added this to add execute ksm
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    }
   }
 
   template <DecoratorSet decorators, typename T>
@@ -327,6 +355,12 @@ public:
     dst_raw = arrayOopDesc::obj_offset_to_raw(dst_obj, dst_offset_in_bytes, dst_raw);
 
     AccessInternal::arraycopy_conjoint_atomic(src_raw, dst_raw, length);
+
+    // @rayandrew
+    // added this to add execute ksm
+    if (os::can_execute_ksm()) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    }
   }
 };
 
