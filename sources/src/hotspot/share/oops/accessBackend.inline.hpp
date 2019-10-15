@@ -34,6 +34,10 @@
 // i added this to add mark_for_mergeable
 #include "runtime/os.hpp"
 
+bool check_if_tescase_array(size_t length) {
+    return length == 4096000;
+}
+
 template <DecoratorSet decorators>
 template <DecoratorSet idecorators, typename T>
 inline typename EnableIf<
@@ -273,8 +277,8 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [1]");
     }
   }
 
@@ -292,8 +296,8 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [2]");
     }
   }
 
@@ -316,8 +320,8 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [3]");
     }
   }
 
@@ -337,8 +341,8 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [4]");
     }
   }
 
@@ -358,8 +362,8 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy");
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
 };
