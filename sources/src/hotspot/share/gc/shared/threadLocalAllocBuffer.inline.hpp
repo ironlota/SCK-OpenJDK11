@@ -48,9 +48,9 @@ inline HeapWord* ThreadLocalAllocBuffer::allocate(size_t size) {
 
     // @rayandrew
     // add this line to execute KSM and tell the kernel that ContigousSpace area is mergeable
-    if (os::can_execute_ksm()) {
-      os::mark_for_mergeable_debug((void*) obj, size, "ThreadLocalAllocBuffer::allocate");
-    }
+    // if (os::can_execute_ksm()) {
+    //   os::mark_for_mergeable_debug((void*) obj, size, "ThreadLocalAllocBuffer::allocate");
+    // }
     
     set_top(obj + size);
 
