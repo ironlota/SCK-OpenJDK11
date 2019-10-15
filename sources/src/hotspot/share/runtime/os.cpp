@@ -695,7 +695,7 @@ void* os::malloc(size_t size, MEMFLAGS memflags, const NativeCallStack& stack) {
     return NULL;
   }
 
-  u_char* ptr = NULL;
+  u_char* ptr;
   // ptr = (u_char*)::malloc(alloc_size);
 
   // @rayandrew
