@@ -193,9 +193,9 @@ function build()
   fi
 
   if [ "$XDEBUG_BINARIES" = "false" ]; then
-      make CONF=$BUILD_PROFILE DEBUG_BINARIES=false EXTRA_CFLAGS=$EXTRA_CFLAGS images
+      CONT=$BUILD_PROFILE make DEBUG_BINARIES=false EXTRA_CFLAGS=$EXTRA_CFLAGS images
   else
-      make CONF=$BUILD_PROFILE DEBUG_BINARIES=true EXTRA_CFLAGS=$EXTRA_CFLAGS images
+      CONT=$BUILD_PROFILE make DEBUG_BINARIES=true EXTRA_CFLAGS=$EXTRA_CFLAGS images
   fi
 
   popd >>/dev/null
