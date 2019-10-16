@@ -17,12 +17,12 @@ if [ "$USE_CCACHE" = "true" ]; then
     EXTRA_FLAGS="--enable-ccache --with-ccache-dir=$CURRENT_FOLDER/.ccache"
 fi
 
-bash configure \
-     --with-freetype-include=/usr/include/freetype2 \
-     --with-freetype-lib=/usr/lib/x86_64-linux-gnu \
-     --disable-warnings-as-errors $EXTRA_FLAGS
+# bash configure \
+#      --with-freetype-include=/usr/include/freetype2 \
+#      --with-freetype-lib=/usr/lib/x86_64-linux-gnu \
+#      --disable-warnings-as-errors $EXTRA_FLAGS
 
-make CONF=linux-x86_64-normal-server-release all
+make CONF=linux-x86_64-normal-server-release CONF_CHECK=auto images
 echo "Done, use java/javac located at build/linux-x86_64-normal-server-release/jdk/bin"
 cd "$CURRENT_FOLDER"
 ##################################################
