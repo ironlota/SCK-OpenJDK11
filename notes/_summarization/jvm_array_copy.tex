@@ -667,6 +667,24 @@ static void pd_conjoint_words(const HeapWord* from, HeapWord* to, size_t count) 
   (void)memmove(to, from, count * HeapWordSize);
 }
 
+// Template for atomic, element-wise copy.
+template <class T>
+static void copy_conjoint_atomic(const T* from, T* to, size_t count) {
+  if (from > to) {
+    while (count-- > 0) {
+      // Copy forwards
+      *to++ = *from++;
+    }
+  } else {
+    from += count - 1;
+    to   += count - 1;
+    while (count-- > 0) {
+      // Copy backwards
+      *to-- = *from--;
+    }
+  }
+}
+
 // ...
 \end{minted}
 
