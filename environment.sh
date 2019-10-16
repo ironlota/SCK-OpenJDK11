@@ -4,7 +4,7 @@ echo "Setting SCK OpenJDK11 development"
 
 export OBF_JAVA11_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 
-path_dir="${PWD}/sources/build/linux-x86_64-normal-server-release/jdk/bin"
+path_dir="${PWD}/sources/build/linux-x86_64-normal-server-release/images/jdk/bin"
 
 _dev_java="${path_dir}/java -verbose:gc"
 _dev_java_ksm="${_dev_java} -XX:+UseKSM"

@@ -23,7 +23,7 @@ fi
 #      --disable-warnings-as-errors $EXTRA_FLAGS
 
 make CONF=linux-x86_64-normal-server-release CONF_CHECK=auto images
-echo "Done, use java/javac located at build/linux-x86_64-normal-server-release/jdk/bin"
+echo "Done, use java/javac located at build/linux-x86_64-normal-server-release/images/jdk/bin"
 cd "$CURRENT_FOLDER"
 ##################################################
 ## done
