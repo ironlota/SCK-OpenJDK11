@@ -154,12 +154,13 @@ function build()
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
       bash $OBF_SOURCES_PATH/configure \
-	   --with-boot-jdk=$OBF_BOOTDIR \
-	   --with-freetype=$OBF_FREETYPE_DIR \
-	   --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+	         --with-boot-jdk=$OBF_BOOTDIR \
+	         --with-freetype=$OBF_FREETYPE_DIR \
+	         --with-cacerts-file=$OBF_DROP_DIR/cacerts \
            --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
-	   --enable-debug $EXTRA_FLAGS \
-	   --disable-warnings-as-errors
+	         --enable-debug \
+           --with-conf-name=$BUILD_PROFILE \
+	         --disable-warnings-as-errors $EXTRA_FLAGS
 
   else
 
@@ -177,10 +178,12 @@ function build()
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
       bash $OBF_SOURCES_PATH/configure \
-	   --with-boot-jdk=$OBF_BOOTDIR \
-	   --with-freetype=$OBF_FREETYPE_DIR \
-	   --with-cacerts-file=$OBF_DROP_DIR/cacerts $EXTRA_FLAGS
-
+	         --with-boot-jdk=$OBF_BOOTDIR \
+	         --with-freetype=$OBF_FREETYPE_DIR \
+	         --with-cacerts-file=$OBF_DROP_DIR/cacerts \
+           --with-conf-name=$BUILD_PROFILE \
+           --disable-warnings-as-errors $EXTRA_FLAGS
+      
   fi
 
   export IMAGE_BUILD_DIR=$OBF_SOURCES_PATH/build/$BUILD_PROFILE/images
