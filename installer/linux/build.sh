@@ -160,7 +160,8 @@ function build()
            --with-ccache-dir=$OBF_WORKSPACE_PATH/.ccache \
 	         --enable-debug \
            --with-conf-name=$BUILD_PROFILE \
-	         --disable-warnings-as-errors $EXTRA_FLAGS
+	         --disable-warnings-as-errors \
+           --with-extra-cxx-flags="-frtti" $EXTRA_FLAGS
 
   else
 
@@ -182,7 +183,8 @@ function build()
 	         --with-freetype=$OBF_FREETYPE_DIR \
 	         --with-cacerts-file=$OBF_DROP_DIR/cacerts \
            --with-conf-name=$BUILD_PROFILE \
-           --disable-warnings-as-errors $EXTRA_FLAGS
+           --disable-warnings-as-errors \
+           --with-extra-cxx-flags="-frtti" $EXTRA_FLAGS
       
   fi
 
