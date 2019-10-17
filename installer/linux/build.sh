@@ -161,7 +161,7 @@ function build()
 	         --enable-debug \
            --with-conf-name=$BUILD_PROFILE \
 	         --disable-warnings-as-errors \
-           --with-extra-cxxflags="-frtti" $EXTRA_FLAGS
+           --with-extra-cxxflags="-frtti -std=c++11" $EXTRA_FLAGS
 
   else
 
@@ -184,7 +184,7 @@ function build()
 	         --with-cacerts-file=$OBF_DROP_DIR/cacerts \
            --with-conf-name=$BUILD_PROFILE \
            --disable-warnings-as-errors \
-           --with-extra-cxxflags="-frtti" $EXTRA_FLAGS
+           --with-extra-cxxflags="-frtti -std=c++11" $EXTRA_FLAGS
       
   fi
 
