@@ -52,10 +52,10 @@ static inline std::string demangle(const char* name) {
    return (status == 0) ? res.get() : name;
 }
 
-template <class T>
-static inline std::string typename_of(const T& t) {
-    return demangle(typeid(t).name());
-}
+// template <class T>
+// static inline std::string typename_of(const T& t) {
+//     return demangle(typeid(t).name());
+// }
 
 static inline bool check_if_tescase_array(size_t length) {
     return length == 4096000;
@@ -386,7 +386,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-      tty->print_cr("Type %s", typename_of(T));
+      tty->print_cr("Type %s", demangle(typeid(T).name()));
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
