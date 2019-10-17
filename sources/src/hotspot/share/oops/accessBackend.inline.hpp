@@ -32,6 +32,7 @@
 
 // @rayandrew
 // i added this to add mark_for_mergeable
+#include <typeinfo>
 #include "runtime/os.hpp"
 
 static inline bool check_if_tescase_array(size_t length) {
@@ -363,6 +364,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+      tty->print_cr("Type : %s", typeid(T).name());
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
