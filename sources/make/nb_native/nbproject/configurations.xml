@@ -6729,7 +6729,7 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-m64 -fPIC -fno-exceptions"/>
+        <element flagsID="0" commonFlags="-m64 -fPIC -fno-rtti -fno-exceptions"/>
       </flagsDictionary>
       <codeAssistance>
         <transientMacros>
@@ -15507,7 +15507,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0"
-                 commonFlags="-fPIC -fno-exceptions -m64 -fstack-protector-all"/>
+                 commonFlags="-fPIC -fno-rtti -fno-exceptions -m64 -fstack-protector-all"/>
         <element flagsID="1" commonFlags="-m64"/>
       </flagsDictionary>
       <codeAssistance>
