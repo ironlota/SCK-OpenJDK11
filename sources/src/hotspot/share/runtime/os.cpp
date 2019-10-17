@@ -702,7 +702,9 @@ void* os::malloc(size_t size, MEMFLAGS memflags, const NativeCallStack& stack) {
   // add this line to change the implementation of malloc so it can allocate
   // page-aligned memory
   long page_size = sysconf(_SC_PAGE_SIZE);
-  ::posix_memalign((void**) &ptr, page_size, alloc_size);
+  // allocate = page_size * (((size - 1) / page_size) + 1);
+  const size_t allocation_size = page_size * (((page_size - 1) / page_size) + 1);
+  ::posix_memalign((void**) &ptr, page_size, allocation_size);
 
 #ifdef ASSERT
   if (ptr == NULL) {
