@@ -32,11 +32,25 @@
 
 // @rayandrew
 // i added this to add mark_for_mergeable
-#include <typeinfo>
 #include "runtime/os.hpp"
+
+# include <cxxabi.h>
+# include <typeinfo>
+# include <iostream>
+# include <string>
+# include <memory>
+# include <cstdlib>
 
 static inline bool check_if_tescase_array(size_t length) {
     return length == 4096000;
+}
+
+static inline std::string demangle(const char* mangled)
+{
+      int status;
+      std::unique_ptr<char[], void (*)(void*)> result(
+        abi::__cxa_demangle(mangled, 0, 0, &status), std::free);
+      return result.get() ? std::string(result.get()) : "error occurred";
 }
 
 template <DecoratorSet decorators>
@@ -363,8 +377,7 @@ public:
 
     // @rayandrew
     // added this to add execute ksm
-    if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-      tty->print_cr("Type : %s", typeid(T).name());
+    if (os::can_execute_ksm() && check_if_tescase_array(length)) {         tty->print_cr("Type : %s", demangle(typeid(*T).name()));
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
