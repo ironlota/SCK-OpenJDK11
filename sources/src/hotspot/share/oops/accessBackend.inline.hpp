@@ -41,19 +41,19 @@
 # include <cxxabi.h>
 
 static inline std::string demangle(const char* name) {
-    int status = -4; // some arbitrary value to eliminate the compiler warning
+   int status = -4; // some arbitrary value to eliminate the compiler warning
 
-    // enable c++11 by passing the flag -std=c++11 to g++
-    std::unique_ptr<char, void(*)(void*)> res {
-        abi::__cxa_demangle(name, NULL, NULL, &status),
-        std::free
-    };
+   // enable c++11 by passing the flag -std=c++11 to g++
+   std::unique_ptr<char, void(*)(void*)> res {
+       abi::__cxa_demangle(name, NULL, NULL, &status),
+       std::free
+   };
 
-    return (status==0) ? res.get() : name ;
+   return (status == 0) ? res.get() : name;
 }
 
 template <class T>
-static inline std::string type(const T& t) {
+static inline std::string typename_of(const T& t) {
     return demangle(typeid(t).name());
 }
 
@@ -386,7 +386,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-      std::cout << "Type : " << type(*T); 
+      tty->print_cr("Type %s", typename_of(T));
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
