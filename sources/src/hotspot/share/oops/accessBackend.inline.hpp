@@ -34,6 +34,7 @@
 // i added this to add mark_for_mergeable
 #include "runtime/os.hpp"
 
+# include <iostream>
 # include <typeinfo>
 # include <cstdlib>
 # include <memory>
@@ -50,7 +51,6 @@ static inline std::string demangle(const char* name) {
 
     return (status==0) ? res.get() : name ;
 }
-
 
 template <class T>
 static inline std::string type(const T& t) {
@@ -386,7 +386,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-      tty->print_cr("Type : %s", type(*T));
+      std::cout << "Type : " << type(*T); 
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
