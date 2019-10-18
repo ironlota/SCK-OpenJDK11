@@ -39,8 +39,14 @@
 # include <cstdlib>
 # include <memory>
 # include <cxxabi.h>
+# include <cstddef>
 
-static inline std::string demangle(const char* name) {
+template<typename T, size_t SIZE>
+static inline const size_t getSize(T (&)[SIZE]) {
+    return SIZE;
+}
+
+static inline const char* demangle(const char* name) {
    int status = -4; // some arbitrary value to eliminate the compiler warning
 
    // enable c++11 by passing the flag -std=c++11 to g++
@@ -48,6 +54,8 @@ static inline std::string demangle(const char* name) {
        abi::__cxa_demangle(name, NULL, NULL, &status),
        std::free
    };
+
+   tty->print_cr("Name : %s %s", res.get(), name);
 
    return (status == 0) ? res.get() : name;
 }
@@ -386,7 +394,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-      tty->print_cr("Type %s", demangle(typeid(T).name()));
+        tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", getSize(dst_raw), demangle(typeid(dst_raw).name()));
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
