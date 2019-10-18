@@ -18,4 +18,8 @@ alias dev_java_ksm="${_dev_java_ksm}"
 alias dev_java_ksm_serial="${_dev_java_ksm} -XX:+UseSerialGC"
 alias dev_java_ksm_epsilon="${_dev_java_ksm} -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC"
 
+alias killall_java="kill -9 $(ps aux | grep "java" | grep -v 'grep' | awk '{print $2}')"
+
+alias check_ksm_info="watch -n2 \"grep -H '' /sys/kernel/mm/ksm/*\""
+
 echo "Setting succeed"

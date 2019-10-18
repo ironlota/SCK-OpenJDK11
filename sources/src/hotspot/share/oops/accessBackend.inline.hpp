@@ -389,6 +389,7 @@ public:
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
       // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
+      tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
       os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
