@@ -39,12 +39,6 @@
 # include <cstdlib>
 # include <memory>
 # include <cxxabi.h>
-# include <cstddef>
-
-template<typename T, size_t SIZE>
-static inline const size_t getSize(T (&)[SIZE]) {
-    return SIZE;
-}
 
 static inline const char* demangle(const char* name) {
    int status = -4; // some arbitrary value to eliminate the compiler warning
@@ -394,7 +388,7 @@ public:
     // @rayandrew
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
-        tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", getSize(dst_raw), demangle(typeid(dst_raw).name()));
+        tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
       os::mark_for_mergeable_debug((void*) dst_raw, length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
