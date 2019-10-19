@@ -40,6 +40,11 @@
 # include <memory>
 # include <cxxabi.h>
 
+static inline bool is_aligned(const void * ptr, std::uintptr_t alignment) noexcept {
+    auto iptr = reinterpret_cast<std::uintptr_t>(ptr);
+    return !(iptr % alignment);
+}
+
 static inline const char* demangle(const char* name) {
    int status = -4; // some arbitrary value to eliminate the compiler warning
 
@@ -389,8 +394,22 @@ public:
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
       // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
+      tty->print_cr("Is aligned : ", is_aligned(dst_obj->base(T_BYTE)));
       tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
-      os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
+      // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
+      tty->print_cr("Value : %s", dst_obj->print_value_string());
+      tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
+      tty->print_cr("Length : %d", dst_obj->length());
+      tty->print_cr("Sizeof arrayOopDesc : %d", sizeof(arrayOopDesc));
+      // tty->print_cr("Content %d", &dst_raw[0]);
+      tty->print_cr("Element offset %d", (size_t)typeArrayOopDesc::element_offset<jbyte>(2));
+      tty->print_cr("New Content 0 ptr " PTR_FORMAT " value %d", static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0));
+      tty->print_cr("New Content 1 ptr " PTR_FORMAT " value %d", static_cast<typeArrayOop>(dst_obj)->byte_at_addr(1), (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(1));
+      tty->print_cr("Content 0 %d", *(int*)((intptr_t)dst_obj));
+      tty->print_cr("Content 1 %d", *(int*)((intptr_t)dst_obj + 17));
+      tty->print_cr("Content %d %d", dst_obj->length(), *(int*)((intptr_t)dst_obj + dst_obj->length()));
+      os::mark_for_mergeable_debug(static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
+      // os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }
 };
