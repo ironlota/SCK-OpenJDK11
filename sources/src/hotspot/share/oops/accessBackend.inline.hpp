@@ -33,18 +33,13 @@
 // @rayandrew
 // i added this to add mark_for_mergeable
 #include "runtime/os.hpp"
+#include "utilities/align.hpp"
 
 # include <iostream>
 # include <typeinfo>
 # include <cstdlib>
 # include <memory>
 # include <cxxabi.h>
-# include <unistd.h>
-
-static inline bool is_aligned(const void * ptr, std::uintptr_t alignment) noexcept {
-    auto iptr = reinterpret_cast<std::uintptr_t>(ptr);
-    return !(iptr % alignment);
-}
 
 static inline const char* demangle(const char* name) {
    int status = -4; // some arbitrary value to eliminate the compiler warning
