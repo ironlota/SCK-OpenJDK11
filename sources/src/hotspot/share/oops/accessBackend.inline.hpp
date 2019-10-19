@@ -39,6 +39,7 @@
 # include <cstdlib>
 # include <memory>
 # include <cxxabi.h>
+# include <unistd.h>
 
 static inline bool is_aligned(const void * ptr, std::uintptr_t alignment) noexcept {
     auto iptr = reinterpret_cast<std::uintptr_t>(ptr);
@@ -394,7 +395,8 @@ public:
     // added this to add execute ksm
     if (os::can_execute_ksm() && check_if_tescase_array(length)) {
       // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
-      tty->print_cr("Is aligned : ", is_aligned(dst_obj->base(T_BYTE)));
+      long page_size = sysconf(_SC_PAGE_SIZE);
+      tty->print_cr("Is aligned : ", is_aligned(dst_obj->base(T_BYTE), page_size));
       tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
       // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
       tty->print_cr("Value : %s", dst_obj->print_value_string());
