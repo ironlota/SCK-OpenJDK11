@@ -411,7 +411,7 @@ public:
       int* arr;
       posix_memalign((void **) &ptr, page_size, length);
 
-      for(int i = 0; i <= length, i++) {
+      for(int i = 0; i <= length; i++) {
           arr[i] = (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(i);
       }
 
