@@ -409,7 +409,7 @@ public:
       tty->print_cr("Content %d %d", dst_obj->length(), *(int*)((intptr_t)dst_obj + dst_obj->length()));
 
       int* arr;
-      posix_memalign((void **) &ptr, page_size, length);
+      posix_memalign((void **) &arr, page_size, length);
 
       for(int i = 0; i <= length; i++) {
           arr[i] = (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(i);
