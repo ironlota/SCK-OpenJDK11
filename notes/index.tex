@@ -1,5 +1,6 @@
 \documentclass[a4paper,english,tikz]{report}
 
+\usepackage{markdown}
 \usepackage{minted}
 \usepackage{tcolorbox}
 \usepackage{etoolbox}
@@ -10,6 +11,14 @@
 \usepackage[ampersand]{easylist}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\usepackage{hyperref}
+
+% table package
+% \usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{longtable}
 
 % setup list
 \setlist[itemize]{leftmargin=*}
@@ -33,8 +42,6 @@
 \setlength{\columnsep}{1cm}
 
 % setup links
-\usepackage{hyperref}
-
 \hypersetup{
   colorlinks=true,
   linkcolor=blue,
@@ -94,6 +101,9 @@ The abstract text goes here.
 \newpage
 
 \input{todos}
+\newpage
+
+\input{meeting}
 \newpage
 
 \input{summarization}

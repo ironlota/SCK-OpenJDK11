@@ -1,0 +1,65 @@
+\subsubsection{JVM Alignment}
+
+\begin{minted}{cpp}
+// Signed variants of alignment helpers.  There are two versions of each, a macro
+// for use in places like enum definitions that require compile-time constant
+// expressions and a function for all other places so as to get type checking.
+
+// Using '(what) & ~align_mask(alignment)' to align 'what' down is broken when
+// 'alignment' is an unsigned int and 'what' is a wider type. The & operation
+// will widen the inverted mask, and not sign extend it, leading to a mask with
+// zeros in the most significant bits. The use of align_mask_widened() solves
+// this problem.
+#define align_mask(alignment) ((alignment) - 1)
+#define widen_to_type_of(what, type_carrier) (true ? (what) : (type_carrier))
+#define align_mask_widened(alignment, type_carrier) widen_to_type_of(align_mask(alignment), (type_carrier))
+
+#define align_down_(size, alignment) ((size) & ~align_mask_widened((alignment), (size)))
+
+#define align_up_(size, alignment) (align_down_((size) + align_mask(alignment), (alignment)))
+
+#define is_aligned_(size, alignment) (((size) & align_mask(alignment)) == 0)
+
+// Temporary declaration until this file has been restructured.
+template <typename T>
+bool is_power_of_2_t(T x) {
+  return (x != T(0)) && ((x & (x - 1)) == T(0));
+}
+
+// Helpers to align sizes and check for alignment
+
+template <typename T, typename A>
+inline T align_up(T size, A alignment) {
+  assert(is_power_of_2_t(alignment), "must be a power of 2: " UINT64_FORMAT, (uint64_t)alignment);
+
+  T ret = align_up_(size, alignment);
+  assert(is_aligned_(ret, alignment), "must be aligned: " UINT64_FORMAT, (uint64_t)ret);
+
+  return ret;
+}
+
+template <typename T, typename A>
+inline T align_down(T size, A alignment) {
+  assert(is_power_of_2_t(alignment), "must be a power of 2: " UINT64_FORMAT, (uint64_t)alignment);
+
+  T ret = align_down_(size, alignment);
+  assert(is_aligned_(ret, alignment), "must be aligned: " UINT64_FORMAT, (uint64_t)ret);
+
+  return ret;
+}
+
+template <typename T, typename A>
+inline bool is_aligned(T size, A alignment) {
+  assert(is_power_of_2_t(alignment), "must be a power of 2: " UINT64_FORMAT, (uint64_t)alignment);
+
+  return is_aligned_(size, alignment);
+}
+    
+template <typename T>
+inline T align_object_offset(T offset) {
+  return align_up(offset, HeapWordsPerLong);
+}
+\end{minted}
+
+
+  

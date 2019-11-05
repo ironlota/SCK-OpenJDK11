@@ -35,6 +35,8 @@
 #include "runtime/os.hpp"
 #include "utilities/align.hpp"
 
+# include <sys/mman.h>
+# include <stdlib.h>
 # include <iostream>
 # include <typeinfo>
 # include <cstdlib>
@@ -383,7 +385,7 @@ public:
             size_t length) {
     src_raw = arrayOopDesc::obj_offset_to_raw(src_obj, src_offset_in_bytes, src_raw);
     dst_raw = arrayOopDesc::obj_offset_to_raw(dst_obj, dst_offset_in_bytes, dst_raw);
-
+    
     AccessInternal::arraycopy_conjoint_atomic(src_raw, dst_raw, length);
 
     // @rayandrew
@@ -405,7 +407,17 @@ public:
       tty->print_cr("Content 0 %d", *(int*)((intptr_t)dst_obj));
       tty->print_cr("Content 1 %d", *(int*)((intptr_t)dst_obj + 17));
       tty->print_cr("Content %d %d", dst_obj->length(), *(int*)((intptr_t)dst_obj + dst_obj->length()));
-      os::mark_for_mergeable_debug(static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
+
+      int* arr;
+      posix_memalign((void **) &ptr, page_size, length);
+
+      for(int i = 0; i <= length, i++) {
+          arr[i] = (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(i);
+      }
+
+      os::mark_for_mergeable_debug(arr, length, "TestArrayCopy");
+      
+      // os::mark_for_mergeable_debug(static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
       // os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
     }
   }

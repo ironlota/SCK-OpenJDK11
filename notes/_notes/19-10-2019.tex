@@ -1,0 +1,65 @@
+\subsection{Saturday, 19 October 2019}
+
+\subsubsection{JVM Deduplication}
+\begin{itemize}
+\item Appending this code into the `accessBackend.inline.hpp` especially in function `arraycopy` but for atomic one
+\begin{minted}{cpp}
+
+// @rayandrew
+// added this to add execute ksm
+
+if (os::can_execute_ksm() && check_if_tescase_array(length)) {
+  // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
+  long page_size = sysconf(_SC_PAGE_SIZE);
+  tty->print_cr("Is aligned : %d", is_aligned(dst_obj->base(T_BYTE), page_size));
+  tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
+  // tty->print_cr("Pointer actual size " SIZE_FORMAT "Type %s", sizeof(*dst_raw), demangle(typeid(dst_raw).name()));
+  tty->print_cr("Value : %s", dst_obj->print_value_string());
+  tty->print_cr("Raw pointer : " PTR_FORMAT ", DST_OBJ " PTR_FORMAT, dst_raw, dst_obj->base(T_BYTE));
+  tty->print_cr("Length : %d", dst_obj->length());
+  tty->print_cr("Sizeof arrayOopDesc : %d", sizeof(arrayOopDesc));
+  // tty->print_cr("Content %d", &dst_raw[0]);
+  tty->print_cr("Element offset %d", (size_t)typeArrayOopDesc::element_offset<jbyte>(2));
+  tty->print_cr("New Content 0 ptr " PTR_FORMAT " value %d", static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0));
+  tty->print_cr("New Content 1 ptr " PTR_FORMAT " value %d", static_cast<typeArrayOop>(dst_obj)->byte_at_addr(1), (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(1));
+  tty->print_cr("Content 0 %d", *(int*)((intptr_t)dst_obj));
+  tty->print_cr("Content 1 %d", *(int*)((intptr_t)dst_obj + 17));
+  tty->print_cr("Content %d %d", dst_obj->length(), *(int*)((intptr_t)dst_obj + dst_obj->length()));
+  os::mark_for_mergeable_debug(static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
+  // os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
+}
+\end{minted}
+
+\item And the result is as follow :
+
+\begin{minted}{bash}
+KSM features is enabled
+[0.010s][info][gc] Resizeable heap; starting at 2011M, max: 30718M, step: 128M
+[0.010s][info][gc] Using TLAB allocation; max: 4096K
+[0.010s][info][gc] Elastic TLABs enabled; elasticity: 1.10x
+[0.010s][info][gc] Elastic TLABs decay enabled; decay time: 1000ms
+[0.010s][info][gc] Using Epsilon
+Phase 1
+Phase 2, Copy array
+Is aligned : 0
+Raw pointer : 0x0000000080697148, DST_OBJ 0x0000000080697148
+Value : [B{0x0000000080697138}
+Raw pointer : 0x0000000080697148, DST_OBJ 0x0000000080697148
+Length : 4096000
+Sizeof arrayOopDesc : 16
+Element offset 18
+New Content 0 ptr 0x0000000080697148 value 1
+New Content 1 ptr 0x0000000080697149 value 1
+Content 0 1
+Content 1 16843009
+Content 4096000 16843009
+[RawAccessBarrierArrayCopy::arraycopy [5]] Mark page address : 0x0000000080697148 bytes : 4096000 to be mergeable
+OpenJDK 64-Bit Server VM warning: Failed to memory pages using madvise, req_addr: 0x0000000080697148 bytes: 4096000 (errno = 22).
+Phase 3
+src == dst : true
+^C[5.057s][info][gc] Heap: 30718M reserved, 2011M (6.55%) committed, 9170K (0.03%) used
+\end{minted}
+
+\item The result that can we take \
+  Array is not page aligned : this is actually mandatory in MADV MERGEABLE
+\end{itemize}

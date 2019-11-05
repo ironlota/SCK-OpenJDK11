@@ -1,7 +1,7 @@
 // taken from this :
 // https://github.com/bramp/unsafe/blob/master/unsafe-helper/src/main/java/net/bramp/unsafe/UnsafeHelper.java
 
-package testcase.memlayout;
+package memlayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -48,6 +48,7 @@ public class UnsafeHelper {
   }
 
   public static Unsafe getUnsafe() {
+    // System.out.println("arrayBaseoffset " + unsafe.arrayBaseOffset(Object[].class));
     return unsafe;
   }
 
@@ -276,7 +277,7 @@ public class UnsafeHelper {
     return sizeOf(clazz) - firstFieldOffset(clazz);
   }
 
-  private static long normalize(int value) {
+  public static long normalize(int value) {
     if (value >= 0) {
       return value;
     }

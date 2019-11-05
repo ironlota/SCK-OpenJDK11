@@ -1,0 +1,453 @@
+\subsubsection{Oop Memory Layout}
+\label{summarization:jvm:oop_memory_layout}
+
+\begin{enumerate}
+
+\item narrowKlass = int, sizeof = 4
+
+\item \cppinline{const int HeapWordSize       = 8;}
+\item \cppinline{const int LogBytesPerLong    = 3;}
+\item \cppinline{const int BytesPerLong       = 1 << LogBytesPerLong;}
+\item \cppinline{const int HeapWordsPerLong   = BytesPerLong / HeapWordSize;}
+
+\item Instance Oops for Object
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{ccllcl}
+        \multirow{2}{*}{Type}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multirow{2}{*}{Header}
+        & \multicolumn{1}{c}{mark *ptr}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8} \\
+        
+        & \multicolumn{1}{c}{klass *ptr} 
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        
+        \multirow{2}{*}{Fields}
+        & \multicolumn{1}{c}{first field}
+        & \multicolumn{1}{c}{16}
+        & \multicolumn{1}{c}{n}
+        & \multicolumn{1}{c}{12}
+        & \multicolumn{1}{c}{n} \\
+
+        & \multicolumn{1}{c}{...fields}
+        & \multicolumn{1}{c}{16 + n}
+        & \multicolumn{1}{c}{...}
+        & \multicolumn{1}{c}{12 + n}
+        & \multicolumn{1}{c}{...} \\
+        
+        \hline
+        
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Instance Oops for Array
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{ccllcl}
+        \multirow{2}{*}{Type}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multirow{2}{*}{Header}
+        & \multicolumn{1}{c}{mark *ptr}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8} \\
+        
+        & \multicolumn{1}{c}{klass *ptr} 
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        \multirow{3}{*}{Fields}
+        & \multicolumn{1}{c}{length}
+        & \multicolumn{1}{c}{16}
+        & \multicolumn{1}{c}{4}
+        & \multicolumn{1}{c}{12}
+        & \multicolumn{1}{c}{4} \\
+
+        & \multicolumn{1}{c}{first field}
+        & \multicolumn{1}{c}{24}
+        & \multicolumn{1}{c}{n}
+        & \multicolumn{1}{c}{16}
+        & \multicolumn{1}{c}{n} \\
+
+        & \multicolumn{1}{c}{...fields}
+        & \multicolumn{1}{c}{24 + n}
+        & \multicolumn{1}{c}{...}
+        & \multicolumn{1}{c}{16 + n}
+        & \multicolumn{1}{c}{...} \\
+        
+        \hline
+        
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Klass
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{ccllcl}
+        \multirow{2}{*}{Data type}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+
+        pointer
+        & \multicolumn{1}{c}{vtable *ptr}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8} \\
+
+        int
+        & \multicolumn{1}{c}{\_layout\_helper} 
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Array Klass
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{ccllcl}
+        \multirow{2}{*}{Data type}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+
+        pointer
+        & \multicolumn{1}{c}{vtable *ptr}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{8} \\
+
+        int
+        & \multicolumn{1}{c}{\_layout\_helper} 
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4}
+        & \multicolumn{1}{c}{8}
+        & \multicolumn{1}{c}{4} \\ 
+        
+        \hline
+        
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Mark Normal Object
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{cccccc}
+        \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{25}
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{25} \\
+        
+        \hline
+
+        \multicolumn{1}{c}{hash}
+        & \multicolumn{1}{c}{25}
+        & \multicolumn{1}{c}{31}
+        & \multicolumn{1}{c}{hash}
+        & \multicolumn{1}{c}{25}
+        & \multicolumn{1}{c}{31} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1}
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{age}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{4}
+        & \multicolumn{1}{c}{age}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{biased\_lock}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{1}
+        & \multicolumn{1}{c}{biased\_lock}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+
+        \multicolumn{1}{c}{lock}
+        & \multicolumn{1}{c}{62}
+        & \multicolumn{1}{c}{2}
+        & \multicolumn{1}{c}{lock}
+        & \multicolumn{1}{c}{62}
+        & \multicolumn{1}{c}{2}
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Mark Biased Object
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{cccccc}
+        \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{JavaThread*}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{54}
+        & \multicolumn{1}{c}{JavaThread*}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{5} \\
+        
+        \hline
+
+        \multicolumn{1}{c}{epoch}
+        & \multicolumn{1}{c}{54}
+        & \multicolumn{1}{c}{2}
+        & \multicolumn{1}{c}{epoch}
+        & \multicolumn{1}{c}{54}
+        & \multicolumn{1}{c}{2} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1}
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{age}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{4}
+        & \multicolumn{1}{c}{age}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{biased\_lock}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{1}
+        & \multicolumn{1}{c}{biased\_lock}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+
+        \multicolumn{1}{c}{lock}
+        & \multicolumn{1}{c}{62}
+        & \multicolumn{1}{c}{2}
+        & \multicolumn{1}{c}{lock}
+        & \multicolumn{1}{c}{62}
+        & \multicolumn{1}{c}{2}
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Mark CMS Promoted Object
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{cccccc}
+        \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{PromotedObject*}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{narrowOop}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{32} \\
+        
+        \hline
+
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{32}
+        & \multicolumn{1}{c}{24} \\
+        
+        \hline
+        
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{cms\_free}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+        
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{4} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{promo\_bits}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{3}
+        & \multicolumn{1}{c}{promo\_bits}
+        & \multicolumn{1}{c}{61}
+        & \multicolumn{1}{c}{3}
+        
+      \end{tabular}%
+    }
+  \end{center}
+
+\item Mark CMS Free Object
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+      \begin{tabular}{cccccc}
+        \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{64bit}
+        & \multirow{2}{*}{Name}
+        & \multicolumn{2}{c}{Compressed} \\
+        
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size}
+        &
+        & \multicolumn{1}{c}{Offset}
+        & \multicolumn{1}{c}{Size} \\
+        
+        \hline
+        
+        \multicolumn{1}{c}{size}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{64}
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{0}
+        & \multicolumn{1}{c}{21} \\
+        
+        \hline
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{size}
+        & \multicolumn{1}{c}{21}
+        & \multicolumn{1}{c}{35} \\
+        
+        \hline
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{cms\_free}
+        & \multicolumn{1}{c}{56}
+        & \multicolumn{1}{c}{1} \\
+        
+        \hline
+        
+        & 
+        & 
+        & \multicolumn{1}{c}{unused}
+        & \multicolumn{1}{c}{57}
+        & \multicolumn{1}{c}{7}
+        
+      \end{tabular}%
+    }
+  \end{center}
+\end{enumerate}
