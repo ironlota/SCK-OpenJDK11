@@ -63,7 +63,7 @@ static inline const char* demangle(const char* name) {
 // }
 
 static inline bool check_if_tescase_array(size_t length) {
-    return length == 4096000;
+    return length == 4096000 || length == 10;
 }
 
 template <DecoratorSet decorators>
@@ -408,14 +408,14 @@ public:
       tty->print_cr("Content 1 %d", *(int*)((intptr_t)dst_obj + 17));
       tty->print_cr("Content %d %d", dst_obj->length(), *(int*)((intptr_t)dst_obj + dst_obj->length()));
 
-      int* arr;
-      posix_memalign((void **) &arr, page_size, length);
+      // int* arr;
+      // posix_memalign((void **) &arr, page_size, length);
 
-      for(int i = 0; i <= length; i++) {
-          arr[i] = (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(i);
-      }
+      // for(int i = 0; i <= length; i++) {
+      //     arr[i] = (int)*static_cast<typeArrayOop>(dst_obj)->byte_at_addr(i);
+      // }
 
-      os::mark_for_mergeable_debug(arr, length, "TestArrayCopy");
+      // os::mark_for_mergeable_debug(arr, length, "TestArrayCopy");
       
       // os::mark_for_mergeable_debug(static_cast<typeArrayOop>(dst_obj)->byte_at_addr(0), length, "RawAccessBarrierArrayCopy::arraycopy [5]");
       // os::mark_for_mergeable_debug(dst_obj->base(T_BYTE), length, "RawAccessBarrierArrayCopy::arraycopy [5]");

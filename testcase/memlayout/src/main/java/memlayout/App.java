@@ -73,9 +73,11 @@ public class App {
     System.out.println("Klass ptr : " + baseKlassPtr);
     // System.out.println("Field x ptr : " + firstFieldValue);
     System.out.println("Sizeof ExampleClass " + App.sizeOf(obj));
-    System.out.println("Hash of obj " + App.getHash(obj));
+    // System.out.println("Hash of obj " + App.getHash(obj));
 
     // Array Experiment
+
+    while (true) {}
 
     // int size = 1 << 16;
     // int[] array = new int[size];
