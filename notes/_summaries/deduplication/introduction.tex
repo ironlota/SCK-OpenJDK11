@@ -1,0 +1,26 @@
+\subsubsection{Introduction}
+
+\subsubsubsection{Virtualization}
+
+Virtualization is used throughout the world and one of growing trend for hosting services within data-centers. \cite{rachamalla_mishra_kulkarni_2013}
+Virtualization uses dynamic resource allocation and migration techniques. Memory over-commit is one of commonly used technique to facilitate server consolidation where the total memory size for all running VMs exceeds actual pyshical memory of hypervisor.
+
+\textbf{There are two improvements that have been done to overcome this issue:}
+\begin{enumerate}
+\item Demand paging -> pages are swapped back and forth to alleviate memory requirements of VMs
+\item Memory ballooning -> inflated to force the machine to relinquish pages according to it's local memory management policy
+\item Exploit redundancy of memory content
+\end{enumerate}
+
+\subsubsubsection{Content Based Page Sharing (CPBS)}
+
+One of major feature that has been implemented throughout hypervisors around the world.
+Another essential feature of \textbf{CPBS} is \textbf{CPBS} able to perform transparently in the hypervisor layer and doesn't require any modification to guest OS / process.
+
+\textbf{Classified into two categories:}
+\begin{enumerate}
+\item in-band sharing -> same page detection and merging in the I/O path (mostly disk access path)
+\item out-band sharing -> periodically scans memory to identify and merge shareable pages
+\end{enumerate}
+
+Out-of-band sharing techniques can potientially take advantage of complete system memory to identify identical memory pages. Out-of-band techniques such as KSM, usually \textbf{oscillate between a sleep period and a scan period}
