@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 
 # Required vars :
@@ -67,15 +67,17 @@ function ensure_cacert()
 function check_version()
 {
     local version=$1 check=$2
-    local winner=$(echo -e "$version\n$check" | sed '/^$/d' | sort -nr | head -1)
-    [[ "$winner" = "$version" ]] && return 0
-    return 1
+    # local winner=$(echo -e "$version\n$check" | sed '/^$/d' | sort -nr | head -1)
+    # get the major version of package
+    local majorVer=(${check//./ })
+    [[ "$majorVer" = "$version" ]] && return 1
+    return 0
 }
 
 function ensure_freetype()
 {
   FT_VER=`freetype-config --ftversion`
-  check_version "2.3" $FT_VER
+  check_version "2" $FT_VER
 
   if [ $? == 0 ]; then
 
@@ -95,6 +97,8 @@ function ensure_freetype()
     export OBF_FREETYPE_LIB_PATH=$OBF_FREETYPE_DIR/lib
     export OBF_FREETYPE_HEADERS_PATH=$OBF_FREETYPE_DIR/include
 
+  else
+    export OBF_FREETYPE_DIR="bundled"
   fi
 }
 
@@ -153,6 +157,8 @@ function build()
       mkdir -p $OBF_SOURCES_PATH/build/$BUILD_PROFILE
       pushd $OBF_SOURCES_PATH/build/$BUILD_PROFILE >>/dev/null
 
+      echo $OBF_FREETYPE_DIR
+      
       bash $OBF_SOURCES_PATH/configure \
 	         --with-boot-jdk=$OBF_BOOTDIR \
 	         --with-freetype=$OBF_FREETYPE_DIR \

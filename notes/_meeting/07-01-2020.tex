@@ -1,0 +1,42 @@
+\subsubsection{07 January 2020}
+
+% - 1 instance of systems -> running a workload -> we need to know at some point X objects
+% - and at Y systems -> how many objects ?
+% - what is the intersection between X and Y
+
+% e.q =
+% - 2 running replicas run workloads -> how many objects that have the same data?
+
+% - we need to know how these 2 objects are equivalent?
+
+% ideas :
+% - we need a notion of equivalence
+% - we need to apply this notion to all objects
+
+% steps :
+% - using JVMTI in the callbacks -> to iterate all objects in Heap
+% - for each one of objects we will try to compare to another JVMs
+% - we want to check the objects between two objects
+% - given two instances -> looking at the content -> are they same?
+
+\begin{itemize}
+\item we only share `all pages` not the `real data`
+\item how can we be more specific -> to save the real data instead of whole heap?
+\item we need to go deeper into `old generation` itself and find the real content
+\item questions
+  \begin{itemize}
+  \item 1 instance of systems -> running a workload -> we need to know at some point X objects
+  \item and at Y systems -> how many objects?
+  \item what is the intersection between X and Y
+  \item e.q =
+  \item 2 running replicas run workloads -> how many objects that have the same data?
+  \end{itemize}
+
+\item steps
+  \begin{itemize}
+  \item using JVMTI in the callbacks -> to iterate all objects in Heap
+  \item for each one of objects we will try to compare to another JVMs
+  \item we want to check the objects between two objects
+  \item given two instances -> looking at the content -> are they same?
+  \end{itemize}
+\end{itemize}
